@@ -1,11 +1,11 @@
 import { Box, Typography } from "@mui/material";
 import useLoggedInUser from "../hooks/useLoggedInUser";
 import usePageTitle from "../hooks/usePageTitle";
-import EggsGrid from "../components/EggGrid";
+import PetsGrid from "../components/PetsGrid";
 
 
-const Home = () => {
-	usePageTitle("Home");
+const ManageSpecies = () => {
+	usePageTitle("ManageSpecies");
 
 	const user = useLoggedInUser();
 
@@ -13,7 +13,7 @@ const Home = () => {
 		<>
 			<Box sx={{ display: 'flex', alignItems: 'center' }}>
 				<Typography variant="h1" fontWeight="bolder">
-					Llamagochi
+					All Species
 				</Typography>
 			</Box>
 			{user?.email && (
@@ -21,10 +21,10 @@ const Home = () => {
 					{"Welcome"}, {user.email}!
 				</Typography>
 			)}
-			<EggsGrid></EggsGrid>
+			<PetsGrid></PetsGrid>
 
 		</>
 			);
 };
 
-export default Home;
+export default ManageSpecies;

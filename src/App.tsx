@@ -15,6 +15,7 @@ import Login from './pages/Login';
 import Home from './pages/Home';
 import { ToastContainer } from 'react-toastify';
 import CreatePet from './pages/CreatePet';
+import ManageSpecies from './pages/ManageSpecies';
 
 const rootRoute = new RootRoute({
 	component: () => {
@@ -29,8 +30,8 @@ const rootRoute = new RootRoute({
 						<Toolbar disableGutters sx={{ gap: 2 }}>
 							<ButtonLink to="/">{"Home"}</ButtonLink>
 							<ButtonLink to="/about">{"About"}</ButtonLink>
-							<ButtonLink to="/play">{"Play"}</ButtonLink>
-							<ButtonLink to="/create">{"Create Pet"}</ButtonLink>
+							<ButtonLink to="/manage">{"Manage Species"}</ButtonLink>
+							<ButtonLink to="/create">{"Create Species"}</ButtonLink>
               {!user ? (
 								<ButtonLink to="/login">{"Login"}</ButtonLink>
 							) : (
@@ -75,12 +76,8 @@ const createRoute = new Route({
 
 const playRoute = new Route({
 	getParentRoute: () => rootRoute,
-	path: '/play',
-  component: () => (
-    <div>
-      <h1>play</h1>
-    </div>
-  )
+	path: '/manage',
+	component: ManageSpecies
 });
 
 const aboutRoute = new Route({

@@ -36,7 +36,6 @@ const PetsGrid = () => {
     const handlePetUpdate = () => {
       // Increment the updateKey value to force update - TODO: better way to do this?
       setUpdateKey((prevKey) => prevKey + 1);
-      console.log("TEST");
     };
   
     return (
