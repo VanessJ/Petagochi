@@ -7,7 +7,7 @@ import {
 	onAuthStateChanged,
 	User
 } from 'firebase/auth';
-import { CollectionReference, collection, getFirestore } from 'firebase/firestore';
+import { CollectionReference, DocumentReference, collection, doc, getFirestore } from 'firebase/firestore';
 
 import { getStorage } from 'firebase/storage';
 
@@ -40,6 +40,9 @@ export const signOut = () => authSignOut(auth);
 export const onAuthChanged = (callback: (u: User | null) => void) =>
 	onAuthStateChanged(auth, callback);
 
+
+export const storage = getStorage();
+
 // Firestore
 const db = getFirestore();
 
@@ -56,12 +59,34 @@ export type Species  = {
 	[key: string]: string;
 }
 
-export const petsCollection = collection(
+export const speciesCollection = collection(
 	db,
 	'species'
 ) as CollectionReference<Species>;
 
-export const storage = getStorage();
+export type Pet  = {
+	name: string;
+	speciesUid: string;
+	ownerUid: string;
+	timeCreated: Date;
+	lastVisit: Date;
+	hungerLevel: number;
+	happinessLevel: number;
+	energyLevel: number;
+}
+
+export const petDocumet = (id: string) =>
+	doc(db, 'reviews', id) as DocumentReference<Pet>;
+
+export const petsCollection = collection(
+	db,
+	'pets'
+) as CollectionReference<Pet>;
+
+export type Stage = "Egg" | "Adult" | "Baby" | "Dead";
+
+export type Mood = "Happy" | "Neutral" | "Sad";
+
 
 
 

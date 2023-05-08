@@ -1,6 +1,6 @@
 import { getDocs } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-import { Species, petsCollection } from '../firebase';
+import { Species, speciesCollection } from '../firebase';
 import PetPreview from './PetPreview';
 
 const PetsGrid = () => {
@@ -11,7 +11,7 @@ const PetsGrid = () => {
     useEffect(() => {
       const fetchPets = async () => {
         try {
-          const querySnapshot = await getDocs(petsCollection);
+          const querySnapshot = await getDocs(speciesCollection);
           const petsData: Species[] = [];
           querySnapshot.forEach((doc) => {
             petsData.push({ id: doc.id, ...doc.data() } as Species);

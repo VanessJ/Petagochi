@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { Species } from "../firebase";
+import { Pet, Species, petsCollection } from "../firebase";
 import { toast } from "react-toastify";
 import { TextField } from "@mui/material";
+import useLoggedInUser from "../hooks/useLoggedInUser";
+import { addDoc } from "firebase/firestore";
 
 type EggPreviewProps = {
   pet: Species;
@@ -10,8 +12,9 @@ type EggPreviewProps = {
 
 const EggPreview: React.FC<EggPreviewProps> = ({ pet, onClose }) => {
 
+  const user = useLoggedInUser();
   const [name, setName] = useState<string>("");
- 
+
   const isNameEmpty = name.trim() === "";
   
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,7 +22,27 @@ const EggPreview: React.FC<EggPreviewProps> = ({ pet, onClose }) => {
   };
 
   const handleSaveName = async () => {
-    toast.success(`Nothing happened, because this is not implemented yet`);
+    if (!isNameEmpty) {
+      try {
+        const newPet: Pet = {
+          name: name,
+          speciesUid: pet.id,
+          ownerUid: user!.uid,
+          timeCreated: new Date(),
+          lastVisit: new Date(),
+          hungerLevel: 50,
+          happinessLevel: 50,
+          energyLevel: 50,
+        };
+
+        await addDoc(petsCollection, newPet);
+        toast.success("Pet successfully adopted");
+        onClose();
+
+      } catch (error) {
+        toast.error(`Error adopting pet: ${error}`);
+      }
+    }
   };
   
     return (

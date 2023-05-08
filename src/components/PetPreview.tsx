@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Species, petsCollection, storage } from "../firebase";
+import { Species, speciesCollection, storage } from "../firebase";
 import { ArrowBack, ArrowForward } from '@mui/icons-material';
 import { DocumentReference, doc, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
@@ -56,7 +56,7 @@ const PetPreview: React.FC<PetPreviewProps> = ({ pet, onClose, onPetUpdate }) =>
 
   const handleSaveName = async () => {
     try {
-      const petRef: DocumentReference<Species> = doc(petsCollection, pet.id);
+      const petRef: DocumentReference<Species> = doc(speciesCollection, pet.id);
 
       await updateDoc(petRef, { name: editedName });
       onPetUpdate();
@@ -76,7 +76,7 @@ const PetPreview: React.FC<PetPreviewProps> = ({ pet, onClose, onPetUpdate }) =>
         await uploadTask;
 
         const downloadURL = await getDownloadURL(storageRef);
-        const petRef: DocumentReference<Species> = doc(petsCollection, pet.id);
+        const petRef: DocumentReference<Species> = doc(speciesCollection, pet.id);
 
         await updateDoc(petRef, { [currentImageKey]: downloadURL });
         onPetUpdate();

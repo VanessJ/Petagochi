@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Grid, TextField, Typography } from '@mui/material';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { Species, petsCollection, storage } from '../firebase';
+import { Species, speciesCollection, storage } from '../firebase';
 import { addDoc } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -78,7 +78,7 @@ const PetForm: React.FC<PetFormProps> = ({ }) => {
         };
 
         // Add the pet document to the "pets" collection
-        await addDoc(petsCollection, pet);
+        await addDoc(speciesCollection, pet);
         toast.success(`Pet successfully created`);
 
         // Reset the form state to initial values
