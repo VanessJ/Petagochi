@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Pet } from "../firebase";
+import { Species } from "../firebase";
 import { toast } from "react-toastify";
 import { TextField } from "@mui/material";
 
 type EggPreviewProps = {
-  pet: Pet;
+  pet: Species;
   onClose: () => void;
 };
 

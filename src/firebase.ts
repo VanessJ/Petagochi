@@ -43,7 +43,7 @@ export const onAuthChanged = (callback: (u: User | null) => void) =>
 // Firestore
 const db = getFirestore();
 
-export type Pet  = {
+export type Species  = {
 	name: string;
 	happyImageURL: string;
 	neutralImageURL: string;
@@ -59,8 +59,9 @@ export type Pet  = {
 export const petsCollection = collection(
 	db,
 	'species'
-) as CollectionReference<Pet>;
+) as CollectionReference<Species>;
 
 export const storage = getStorage();
+
 
 

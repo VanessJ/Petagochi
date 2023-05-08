@@ -1,20 +1,20 @@
 import { getDocs } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-import { Pet, petsCollection } from '../firebase';
+import { Species, petsCollection } from '../firebase';
 import PetPreview from './PetPreview';
 
 const PetsGrid = () => {
-    const [pets, setPets] = useState<Pet[]>([]);
-    const [selectedPet, setSelectedPet] = useState<Pet | null>(null);
+    const [pets, setPets] = useState<Species[]>([]);
+    const [selectedPet, setSelectedPet] = useState<Species | null>(null);
     const [updateKey, setUpdateKey] = useState<number>(0); // State for forcing update - TODO: better way to do this?
   
     useEffect(() => {
       const fetchPets = async () => {
         try {
           const querySnapshot = await getDocs(petsCollection);
-          const petsData: Pet[] = [];
+          const petsData: Species[] = [];
           querySnapshot.forEach((doc) => {
-            petsData.push({ id: doc.id, ...doc.data() } as Pet);
+            petsData.push({ id: doc.id, ...doc.data() } as Species);
           });
           setPets(petsData);
         } catch (error) {
@@ -25,7 +25,7 @@ const PetsGrid = () => {
       fetchPets();
     }, [updateKey]);
   
-    const handleGridItemClick = (pet: Pet) => {
+    const handleGridItemClick = (pet: Species) => {
       setSelectedPet(pet);
     };
   

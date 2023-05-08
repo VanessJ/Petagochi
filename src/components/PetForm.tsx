@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Grid, TextField, Typography } from '@mui/material';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { Pet, petsCollection, storage } from '../firebase';
+import { Species, petsCollection, storage } from '../firebase';
 import { addDoc } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -65,7 +65,7 @@ const PetForm: React.FC<PetFormProps> = ({ }) => {
         );
 
         // Create the pet object with the download URLs
-        const pet: Pet = {
+        const pet: Species = {
           name: petName,
           happyImageURL: downloadURLs[0],
           neutralImageURL: downloadURLs[1],
