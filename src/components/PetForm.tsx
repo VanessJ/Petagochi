@@ -87,7 +87,11 @@ const PetForm: React.FC<PetFormProps> = ({ }) => {
           happy: null,
           neutral: null,
           sad: null,
+          smallHappy: null,
+          smallNeutral: null,
+          smallSad: null,
           dead: null,
+          egg: null,
         });
         setFormError(false);
       } catch (error) {

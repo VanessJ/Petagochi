@@ -58,7 +58,7 @@ export type Pet  = {
 
 export const petsCollection = collection(
 	db,
-	'pets'
+	'species'
 ) as CollectionReference<Pet>;
 
 export const storage = getStorage();
