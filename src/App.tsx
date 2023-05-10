@@ -30,8 +30,8 @@ const rootRoute = new RootRoute({
 						<Toolbar disableGutters sx={{ gap: 2 }}>
 							<ButtonLink to="/">{"Home"}</ButtonLink>
 							<ButtonLink to="/about">{"About"}</ButtonLink>
-							<ButtonLink to="/manage">{"Manage Species"}</ButtonLink>
-							<ButtonLink to="/create">{"Create Species"}</ButtonLink>
+							<ButtonLink to="/manage">{"Manage Llamas"}</ButtonLink>
+							<ButtonLink to="/create">{"Create Llama"}</ButtonLink>
               {!user ? (
 								<ButtonLink to="/login">{"Login"}</ButtonLink>
 							) : (

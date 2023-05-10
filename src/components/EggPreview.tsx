@@ -8,9 +8,10 @@ import { addDoc } from "firebase/firestore";
 type EggPreviewProps = {
   pet: Species;
   onClose: () => void;
+  onSelect: () => void;
 };
 
-const EggPreview: React.FC<EggPreviewProps> = ({ pet, onClose }) => {
+const EggPreview: React.FC<EggPreviewProps> = ({ pet, onClose, onSelect }) => {
 
   const user = useLoggedInUser();
   const [name, setName] = useState<string>("");
@@ -38,6 +39,7 @@ const EggPreview: React.FC<EggPreviewProps> = ({ pet, onClose }) => {
         await addDoc(petsCollection, newPet);
         toast.success("Pet successfully adopted");
         onClose();
+        onSelect();
 
       } catch (error) {
         toast.error(`Error adopting pet: ${error}`);

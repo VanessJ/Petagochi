@@ -4,7 +4,11 @@ import { Species, speciesCollection } from '../firebase';
 import { Typography } from '@mui/material';
 import EggPreview from './EggPreview';
 
-const EggsGrid = () => {
+type EggGridProps = {
+    onSelect: () => void; 
+  };
+
+  const EggsGrid: React.FC<EggGridProps> = ({ onSelect }) => {
   const [pets, setPets] = useState<Species[]>([]);
   const [selectedPet, setSelectedPet] = useState<Species | null>(null);
 
@@ -42,7 +46,7 @@ const EggsGrid = () => {
           Choose an egg
         </Typography>
       )}
-      {selectedPet && <EggPreview pet={selectedPet} onClose={handleCloseModal}/>}
+      {selectedPet && <EggPreview pet={selectedPet} onClose={handleCloseModal} onSelect={onSelect}/>}
       <br />
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', overflow: 'auto' }}>
         {pets.map((pet) => (

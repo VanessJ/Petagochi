@@ -64,6 +64,9 @@ export const speciesCollection = collection(
 	'species'
 ) as CollectionReference<Species>;
 
+export const speciesDocument = (id: string) =>
+  doc(db, 'species', id) as DocumentReference<Species>;
+
 export type Pet  = {
 	name: string;
 	speciesUid: string;
@@ -75,8 +78,22 @@ export type Pet  = {
 	energyLevel: number;
 }
 
+export const petConverter = {
+	toFirestore(pet: Pet) {
+	  return pet; 
+	},
+	fromFirestore(snapshot: any, options: any) {
+	  const data = snapshot.data(options);
+	  return {
+		...data,
+		timeCreated: data.timeCreated.toDate(), 
+		lastVisit: data.lastVisit.toDate(), 
+	  };
+	},
+  };
+
 export const petDocumet = (id: string) =>
-	doc(db, 'reviews', id) as DocumentReference<Pet>;
+	doc(db, 'pets', id) as DocumentReference<Pet>;
 
 export const petsCollection = collection(
 	db,

@@ -106,7 +106,7 @@ const PetPreview: React.FC<PetPreviewProps> = ({ pet, onClose, onPetUpdate }) =>
       <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
         <input type="file" accept="image/*" onChange={handleImageUpload} />
         <button style={{ padding: '5px 10px', cursor: 'pointer' }} onClick={handleSaveImage} disabled={!uploadedImage}>
-          Update Photo
+          Update Image
         </button>
       </div>
       <button style={{ marginTop: '10px' }} onClick={onClose}>
