@@ -5,12 +5,15 @@ import {
 	signInWithEmailAndPassword,
 	signOut as authSignOut,
 	onAuthStateChanged,
-	User
+	User as FBUser,
 } from 'firebase/auth';
-import { CollectionReference, DocumentReference, collection, doc, getFirestore } from 'firebase/firestore';
+import { CollectionReference, DocumentReference, collection, doc, getFirestore, setDoc } from 'firebase/firestore';
 
 import { getStorage } from 'firebase/storage';
 
+
+//Custom user type
+export type User = FBUser & {role?: Role};
 
 // Initialize Firebase
 initializeApp({
@@ -26,8 +29,11 @@ initializeApp({
 const auth = getAuth();
 
 // Sign up handler
-export const signUp = (email: string, password: string) =>
+export const signUp = async (email: string, password: string) => {
+	await setDoc(rolesDocument(email), {name:'user'});
 	createUserWithEmailAndPassword(auth, email, password);
+}
+	
 
 // Sign in handler
 export const signIn = (email: string, password: string) =>
@@ -45,6 +51,17 @@ export const storage = getStorage();
 
 // Firestore
 const db = getFirestore();
+
+export type Role  = {name: 'user' | 'admin'};
+
+export const rolesCollection = collection(
+	db,
+	'roles'
+) as CollectionReference<Role>;
+
+export const rolesDocument = (id: string) =>
+  doc(db, 'roles', id) as DocumentReference<Role>;
+
 
 export type Species  = {
 	name: string;
@@ -92,7 +109,7 @@ export const petConverter = {
 	},
   };
 
-export const petDocumet = (id: string) =>
+export const petDocument = (id: string) =>
 	doc(db, 'pets', id) as DocumentReference<Pet>;
 
 export const petsCollection = collection(
