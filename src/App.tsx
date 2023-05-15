@@ -16,10 +16,12 @@ import Home from './pages/Home';
 import { ToastContainer } from 'react-toastify';
 import CreatePet from './pages/CreatePet';
 import ManageSpecies from './pages/ManageSpecies';
+import { isAdmin } from './accessControl';
 
 const rootRoute = new RootRoute({
 	component: () => {
     const user = useLoggedInUser();
+	const admin = isAdmin(user);
 
 		return (
 			<ThemeProvider theme={theme}>
@@ -30,8 +32,8 @@ const rootRoute = new RootRoute({
 						<Toolbar disableGutters sx={{ gap: 2 }}>
 							<ButtonLink to="/">{"Home"}</ButtonLink>
 							<ButtonLink to="/about">{"About"}</ButtonLink>
-							<ButtonLink to="/manage">{"Manage Llamas"}</ButtonLink>
-							<ButtonLink to="/create">{"Create Llama"}</ButtonLink>
+							{admin && <ButtonLink to="/manage">{"Manage Llamas"}</ButtonLink>}
+							{admin && <ButtonLink to="/create">{"Create Llama"}</ButtonLink>}
               {!user ? (
 								<ButtonLink to="/login">{"Login"}</ButtonLink>
 							) : (
