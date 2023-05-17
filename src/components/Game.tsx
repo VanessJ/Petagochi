@@ -18,10 +18,24 @@ type GameProps = {
 
 const MaxLevel = 100;
 
+export const UPDATE = 1000 * 60; // 1 minute in milliseconds
+
 const Game: React.FC<GameProps> = ({ pet, species }) => {
 	const [imageURL, setImageURL] = useState('');
 
-	useEffect(() => usePetImage(pet, species, setImageURL, setPetDeath), []);
+	useEffect(() => {
+		const update = () => {
+			usePetImage(pet, species, setImageURL, setPetDeath);
+			setHunger(pet.hungerLevel);
+			setHappines(pet.happinessLevel);
+			setEnergy(pet.energyLevel);
+			// Schedule the next update after the specified interval
+			setTimeout(update, UPDATE);
+		};
+	
+		// Start the initial update
+		setTimeout(update, 0);
+	}, []);
 
 	const [isDialogOpen, setDialogOpen] = useState(false);
 	const [isPetDead, setPetDeath] = useState(false);
@@ -55,7 +69,7 @@ const Game: React.FC<GameProps> = ({ pet, species }) => {
 	};
 
 	const updateEnergy = (pet: Pet) => {
-		const updateInterval = 60000; // 1 minute in milliseconds
+		const updateInterval = 1000; // 1 sec in milliseconds
 
 		const update = () => {
 			setDialogOpen(true);
