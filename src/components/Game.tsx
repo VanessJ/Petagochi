@@ -10,6 +10,7 @@ import { Pet, Species, petDocument } from '../firebase';
 import usePetImage from '../hooks/usePetImage';
 import React, { useEffect, useRef, useState } from 'react';
 import { deleteDoc, setDoc } from 'firebase/firestore';
+import { toast } from 'react-toastify';
 
 type GameProps = {
 	pet: Pet;
@@ -62,6 +63,7 @@ const Game: React.FC<GameProps> = ({ pet, species }) => {
 		} else {
 			pet.hungerLevel = MaxLevel;
 		}
+		toast.success(`Nom nom nom`);
 		setHunger(pet.hungerLevel);
 		usePetImage(pet, species, setImageURL, setPetDeath);
 	};
@@ -71,6 +73,7 @@ const Game: React.FC<GameProps> = ({ pet, species }) => {
 		llamaSound.play();
 		setHappines(pet.happinessLevel);
 		setDoc(petDocument(pet.id), pet);
+		toast.success(`Me played with my hooman, me happy`);
 		usePetImage(pet, species, setImageURL, setPetDeath);
 	};
 
@@ -107,6 +110,7 @@ const Game: React.FC<GameProps> = ({ pet, species }) => {
 
 	const wakeUp = () => {
 		setDialogOpen(false);
+		toast.success(`Good morning!`);
 	};
 
 	useEffect(() => {
