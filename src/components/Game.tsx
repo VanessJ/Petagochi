@@ -1,8 +1,15 @@
-import { Typography, Box, Button, Dialog, DialogContent, DialogActions } from '@mui/material';
+import {
+	Typography,
+	Box,
+	Button,
+	Dialog,
+	DialogContent,
+	DialogActions
+} from '@mui/material';
 import { Pet, Species, petDocument } from '../firebase';
 import usePetImage from '../hooks/usePetImage';
 import React, { useEffect, useState } from 'react';
-import { setDoc } from 'firebase/firestore';
+import { deleteDoc, setDoc } from 'firebase/firestore';
 
 type GameProps = {
 	pet: Pet;
@@ -15,7 +22,7 @@ const Game: React.FC<GameProps> = ({ pet, species }) => {
 	const [imageURL, setImageURL] = useState('');
 
 	useEffect(() => usePetImage(pet, species, setImageURL, setPetDeath), []);
-	
+
 	const [isDialogOpen, setDialogOpen] = useState(false);
 	const [isPetDead, setPetDeath] = useState(false);
 
@@ -36,7 +43,7 @@ const Game: React.FC<GameProps> = ({ pet, species }) => {
 			pet.hungerLevel = MaxLevel;
 		}
 		setHunger(pet.hungerLevel);
-		usePetImage(pet, species, setImageURL,setPetDeath);
+		usePetImage(pet, species, setImageURL, setPetDeath);
 	};
 
 	const updateHappines = (pet: Pet) => {
@@ -44,7 +51,7 @@ const Game: React.FC<GameProps> = ({ pet, species }) => {
 		llamaSound.play();
 		setHappines(pet.happinessLevel);
 		setDoc(petDocument(pet.id), pet);
-		usePetImage(pet, species, setImageURL,setPetDeath);
+		usePetImage(pet, species, setImageURL, setPetDeath);
 	};
 
 	const updateEnergy = (pet: Pet) => {
@@ -56,8 +63,8 @@ const Game: React.FC<GameProps> = ({ pet, species }) => {
 			if (pet.energyLevel < MaxLevel) {
 				pet.energyLevel += 1;
 				setEnergy(pet.energyLevel);
-				usePetImage(pet, species, setImageURL,setPetDeath);
-				
+				usePetImage(pet, species, setImageURL, setPetDeath);
+
 				if (pet.energyLevel >= MaxLevel) {
 					setDialogOpen(false);
 					return;
@@ -72,12 +79,17 @@ const Game: React.FC<GameProps> = ({ pet, species }) => {
 		setTimeout(update, 0);
 	};
 
+	const startOver = (pet: Pet) => {
+		deleteDoc(petDocument(pet.id));
+		setPetDeath(false);
+	};
+
 	useEffect(() => {
 		if (Energy >= MaxLevel) {
 			setDialogOpen(false);
 		}
 	}, [Energy]);
-	
+
 	return (
 		<>
 			<Typography variant="h4" textAlign="center">
@@ -180,15 +192,11 @@ const Game: React.FC<GameProps> = ({ pet, species }) => {
 
 			<Dialog open={isPetDead}>
 				<DialogContent>
-					<Typography variant="h2">
-						Game Over
-					</Typography>
-					<Typography variant="h3">
-						Your pet has died.
-					</Typography>
+					<Typography variant="h2">Game Over</Typography>
+					<Typography variant="h3">Your pet has died.</Typography>
 				</DialogContent>
 				<DialogActions>
-					<Button onClick={() => setDialogOpen(false)}>Start Over</Button>
+					<Button onClick={() => startOver(pet)}>Start Over</Button>
 				</DialogActions>
 			</Dialog>
 		</>
