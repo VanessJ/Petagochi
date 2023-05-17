@@ -48,12 +48,14 @@ type EggGridProps = {
       )}
       {selectedPet && <EggPreview pet={selectedPet} onClose={handleCloseModal} onSelect={onSelect}/>}
       <br />
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', overflow: 'auto' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', overflow: 'auto' }}>
         {pets.map((pet) => (
           <div
             key={pet.id}
+            className='EggDiv'
             style={{
-              border: selectedPet === pet ? '1px solid green' : '1px solid black',
+              border: selectedPet === pet ? '3px solid green' : '3px solid darkslategray',
+              borderRadius:'5px',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
