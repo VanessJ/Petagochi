@@ -65,7 +65,7 @@ const Game: React.FC<GameProps> = ({ pet, species }) => {
 				setEnergy(pet.energyLevel);
 				usePetImage(pet, species, setImageURL, setPetDeath);
 
-				if (pet.energyLevel >= MaxLevel) {
+				if (pet.energyLevel >= MaxLevel || !isDialogOpen) {
 					setDialogOpen(false);
 					return;
 				}
