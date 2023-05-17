@@ -13,8 +13,9 @@ const MaxLevel = 100;
 
 const Game: React.FC<GameProps> = ({ pet, species }) => {
 	const imageURL = usePetImage(pet, species);
-
+	
 	const [isDialogOpen, setDialogOpen] = useState(false);
+	const [isPetDead, setPetDeath] = useState(false);
 
 	const [Hunger, setHunger] = useState(pet.hungerLevel);
 	const [Happines, setHappines] = useState(pet.happinessLevel);
@@ -168,6 +169,20 @@ const Game: React.FC<GameProps> = ({ pet, species }) => {
 				</DialogContent>
 				<DialogActions>
 					<Button onClick={() => setDialogOpen(false)}>Wake up</Button>
+				</DialogActions>
+			</Dialog>
+
+			<Dialog open={isPetDead}>
+				<DialogContent>
+					<Typography variant="h2">
+						Game Over
+					</Typography>
+					<Typography variant="h3">
+						Your pet has died.
+					</Typography>
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={() => setDialogOpen(false)}>Start Over</Button>
 				</DialogActions>
 			</Dialog>
 		</>
