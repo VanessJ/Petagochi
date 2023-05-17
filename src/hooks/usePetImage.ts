@@ -1,9 +1,5 @@
 import { useEffect, useState } from 'react';
-import {
-	Pet,
-	Species,
-	petDocument
-} from '../firebase';
+import { Pet, Species, petDocument } from '../firebase';
 import { doc, setDoc } from 'firebase/firestore';
 
 type Mood = 'happy' | 'neutral' | 'sad';
@@ -15,7 +11,6 @@ const usePetImage = (pet: Pet, species: Species) => {
 		const calculateMood = () => {
 			const { hungerLevel, happinessLevel, energyLevel } = pet;
 			const averageLevel = (hungerLevel + happinessLevel + energyLevel) / 3;
-
 			if (averageLevel < 33) {
 				return 'sad';
 			} else if (averageLevel < 66) {
@@ -35,13 +30,13 @@ const usePetImage = (pet: Pet, species: Species) => {
 			);
 
 			if (lastVisitInHours > 0) {
-				pet.energyLevel = pet.energyLevel - lastVisitInHours;
-				pet.hungerLevel = pet.hungerLevel - lastVisitInHours;
-				pet.happinessLevel = pet.happinessLevel - lastVisitInHours;
+				pet.energyLevel = Math.max(pet.energyLevel - lastVisitInHours, 0);
+				pet.hungerLevel =  Math.max(pet.hungerLevel - lastVisitInHours, 0);
+				pet.happinessLevel =  Math.max(pet.happinessLevel - lastVisitInHours, 0);
 
 				pet.lastVisit = currentDate;
 			}
-			
+
 			setDoc(petDocument(pet.id), pet);
 		};
 
@@ -54,18 +49,25 @@ const usePetImage = (pet: Pet, species: Species) => {
 		};
 
 		calculateEachLevel();
-		const mood: Mood = calculateMood();
-		const age = calculateAge();
-		const imagePrefix = age < 3 ? 'small' : '';
+		let imagePrefix;
+		let imageURLKey;
+		let imageURL;
 
-		const capitalizeFirstLetter = (str: string) =>
-			str.charAt(0).toUpperCase() + str.slice(1);
+		if (pet.hungerLevel + pet.happinessLevel + pet.energyLevel <= 0) {
+			imageURLKey = `deadImageURL`;
+		} else {
+			const mood: Mood = calculateMood();
+			const age = calculateAge();
+			imagePrefix = age < 3 ? 'small' : '';
+			const capitalizeFirstLetter = (str: string) =>
+				str.charAt(0).toUpperCase() + str.slice(1);
+				imageURLKey = `${imagePrefix}${
+					imagePrefix === 'small' ? capitalizeFirstLetter(mood) : mood
+				}ImageURL`;
 
-		const imageURLKey = `${imagePrefix}${
-			imagePrefix === 'small' ? capitalizeFirstLetter(mood) : mood
-		}ImageURL`;
+		}
+		imageURL = species[imageURLKey];
 
-		const imageURL = species[imageURLKey];
 		setImageURL(imageURL);
 	}, [pet, species]);
 

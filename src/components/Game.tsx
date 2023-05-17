@@ -39,10 +39,11 @@ const Game: React.FC<GameProps> = ({ pet, species }) => {
 		pet.happinessLevel = MaxLevel;
 		llamaSound.play();
 		setHappines(pet.happinessLevel);
+		setDoc(petDocument(pet.id), pet);
 	};
 
 	const updateEnergy = (pet: Pet) => {
-		const updateInterval = 6000; // 1 minute in milliseconds
+		const updateInterval = 60000; // 1 minute in milliseconds
 
 		const update = () => {
 			setDialogOpen(true);
