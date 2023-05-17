@@ -3,7 +3,7 @@ import { setDoc } from 'firebase/firestore';
 
 type Mood = 'happy' | 'neutral' | 'sad';
 
-const usePetImage = (pet: Pet, species: Species, setImageURL: React.Dispatch<React.SetStateAction<string>>) => {
+const usePetImage = (pet: Pet, species: Species, setImageURL: React.Dispatch<React.SetStateAction<string>>, setPetDeath:React.Dispatch<React.SetStateAction<boolean>>) => {
 
 	const calculateMood = () => {
 		const { hungerLevel, happinessLevel, energyLevel } = pet;
@@ -52,6 +52,7 @@ const usePetImage = (pet: Pet, species: Species, setImageURL: React.Dispatch<Rea
 
 	if (pet.hungerLevel + pet.happinessLevel + pet.energyLevel <= 0) {
 		imageURLKey = `deadImageURL`;
+		setPetDeath (true);
 	} else {
 		const mood: Mood = calculateMood();
 		const age = calculateAge();
