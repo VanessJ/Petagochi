@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import { Pet, Species, petDocument } from '../firebase';
 import usePetImage from '../hooks/usePetImage';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { deleteDoc, setDoc } from 'firebase/firestore';
 
 type GameProps = {
@@ -37,7 +37,13 @@ const Game: React.FC<GameProps> = ({ pet, species }) => {
 		setTimeout(update, 0);
 	}, []);
 
+
+	const dialogRef = useRef(false);
 	const [isDialogOpen, setDialogOpen] = useState(false);
+	useEffect(() => {
+		dialogRef.current = isDialogOpen;
+	}, [isDialogOpen]);
+
 	const [isPetDead, setPetDeath] = useState(false);
 
 	const [Hunger, setHunger] = useState(pet.hungerLevel);
@@ -79,7 +85,7 @@ const Game: React.FC<GameProps> = ({ pet, species }) => {
 				setEnergy(pet.energyLevel);
 				usePetImage(pet, species, setImageURL, setPetDeath);
 
-				if (pet.energyLevel >= MaxLevel) {
+				if (pet.energyLevel >= MaxLevel || !dialogRef.current) {
 					setDialogOpen(false);
 					return;
 				}
@@ -101,7 +107,6 @@ const Game: React.FC<GameProps> = ({ pet, species }) => {
 
 	const wakeUp = () => {
 		setDialogOpen(false);
-		window.location.reload();
 	};
 
 	useEffect(() => {
