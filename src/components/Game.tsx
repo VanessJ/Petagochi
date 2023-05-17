@@ -96,6 +96,7 @@ const Game: React.FC<GameProps> = ({ pet, species }) => {
 	const startOver = (pet: Pet) => {
 		deleteDoc(petDocument(pet.id));
 		setPetDeath(false);
+		window.location.reload();
 	};
 
 	useEffect(() => {

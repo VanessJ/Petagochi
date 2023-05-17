@@ -30,7 +30,7 @@ const rootRoute = new RootRoute({
 
 				<AppBar sx={{ position: 'sticky' }}>
 					<Container maxWidth="sm">
-						<Toolbar disableGutters sx={{ gap: 2 }}>
+						<Toolbar disableGutters sx={{ gap: 2, display:'flex', justifyContent:'space-around' }}>
 							<ButtonLink to="/">{"Home"}</ButtonLink>
 							<ButtonLink to="/about">{"About"}</ButtonLink>
 							{admin && <ButtonLink to="/manage">{"Manage Llamas"}</ButtonLink>}
