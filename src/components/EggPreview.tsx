@@ -26,6 +26,7 @@ const EggPreview: React.FC<EggPreviewProps> = ({ pet, onClose, onSelect }) => {
     if (!isNameEmpty) {
       try {
         const newPet: Pet = {
+          id: "",
           name: name,
           speciesUid: pet.id,
           ownerUid: user!.uid,
