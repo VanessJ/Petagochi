@@ -85,6 +85,7 @@ export const speciesDocument = (id: string) =>
   doc(db, 'species', id) as DocumentReference<Species>;
 
 export type Pet  = {
+	id: string;
 	name: string;
 	speciesUid: string;
 	ownerUid: string;
@@ -103,6 +104,7 @@ export const petConverter = {
 	  const data = snapshot.data(options);
 	  return {
 		...data,
+		id: snapshot.id,
 		timeCreated: data.timeCreated.toDate(), 
 		lastVisit: data.lastVisit.toDate(), 
 	  };

@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Pet, Species } from '../firebase';
+import {
+	Pet,
+	Species,
+	petDocument
+} from '../firebase';
+import { doc, setDoc } from 'firebase/firestore';
 
 type Mood = 'happy' | 'neutral' | 'sad';
 
@@ -29,11 +34,15 @@ const usePetImage = (pet: Pet, species: Species) => {
 				lastVisitInMiliseconds / (1000 * 60 * 60)
 			);
 
-			pet.energyLevel = pet.energyLevel - lastVisitInHours;
-			pet.hungerLevel = pet.hungerLevel - lastVisitInHours;
-			pet.happinessLevel = pet.happinessLevel - lastVisitInHours;
+			if (lastVisitInHours > 0) {
+				pet.energyLevel = pet.energyLevel - lastVisitInHours;
+				pet.hungerLevel = pet.hungerLevel - lastVisitInHours;
+				pet.happinessLevel = pet.happinessLevel - lastVisitInHours;
 
-			pet.lastVisit = currentDate;
+				pet.lastVisit = currentDate;
+			}
+			
+			setDoc(petDocument(pet.id), pet);
 		};
 
 		const calculateAge = () => {
