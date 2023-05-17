@@ -12,10 +12,12 @@ type GameProps = {
 const MaxLevel = 100;
 
 const Game: React.FC<GameProps> = ({ pet, species }) => {
-	const imageURL = usePetImage(pet, species);
+	const [imageURL, setImageURL] = useState('');
+
+	useEffect(() => usePetImage(pet, species, setImageURL), []);
 	
 	const [isDialogOpen, setDialogOpen] = useState(false);
-	const [isPetDead, setPetDeath] = useState(false);
+	const [isPetDead] = useState(false);
 
 	const [Hunger, setHunger] = useState(pet.hungerLevel);
 	const [Happines, setHappines] = useState(pet.happinessLevel);
@@ -34,6 +36,7 @@ const Game: React.FC<GameProps> = ({ pet, species }) => {
 			pet.hungerLevel = MaxLevel;
 		}
 		setHunger(pet.hungerLevel);
+		usePetImage(pet, species, setImageURL);
 	};
 
 	const updateHappines = (pet: Pet) => {
@@ -41,6 +44,7 @@ const Game: React.FC<GameProps> = ({ pet, species }) => {
 		llamaSound.play();
 		setHappines(pet.happinessLevel);
 		setDoc(petDocument(pet.id), pet);
+		usePetImage(pet, species, setImageURL);
 	};
 
 	const updateEnergy = (pet: Pet) => {
@@ -52,8 +56,7 @@ const Game: React.FC<GameProps> = ({ pet, species }) => {
 			if (pet.energyLevel < MaxLevel) {
 				pet.energyLevel += 1;
 				setEnergy(pet.energyLevel);
-
-				setDoc(petDocument(pet.id), pet);
+				usePetImage(pet, species, setImageURL);
 				
 				if (pet.energyLevel >= MaxLevel) {
 					setDialogOpen(false);
