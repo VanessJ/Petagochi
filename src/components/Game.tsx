@@ -1,7 +1,7 @@
-import { Typography, Box, Button, Dialog, DialogContent } from '@mui/material';
+import { Typography, Box, Button, Dialog, DialogContent, DialogActions } from '@mui/material';
 import { Pet, Species, petDocument } from '../firebase';
 import usePetImage from '../hooks/usePetImage';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { setDoc } from 'firebase/firestore';
 
 type GameProps = {
@@ -68,6 +68,12 @@ const Game: React.FC<GameProps> = ({ pet, species }) => {
 		setTimeout(update, 0);
 	};
 
+	useEffect(() => {
+		if (Energy >= MaxLevel) {
+			setDialogOpen(false);
+		}
+	}, [Energy]);
+	
 	return (
 		<>
 			<Typography variant="h4" textAlign="center">
@@ -160,6 +166,9 @@ const Game: React.FC<GameProps> = ({ pet, species }) => {
 						Sleeping... {MaxLevel - pet.energyLevel} remaining
 					</Typography>
 				</DialogContent>
+				<DialogActions>
+					<Button onClick={() => setDialogOpen(false)}>Wake up</Button>
+				</DialogActions>
 			</Dialog>
 		</>
 	);
