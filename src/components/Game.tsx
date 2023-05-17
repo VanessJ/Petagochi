@@ -32,7 +32,7 @@ const Game: React.FC<GameProps> = ({ pet, species }) => {
 			// Schedule the next update after the specified interval
 			setTimeout(update, UPDATE);
 		};
-	
+
 		// Start the initial update
 		setTimeout(update, 0);
 	}, []);
@@ -71,15 +71,15 @@ const Game: React.FC<GameProps> = ({ pet, species }) => {
 	const updateEnergy = (pet: Pet) => {
 		const updateInterval = 1000; // 1 sec in milliseconds
 
-		const update = () => {
-			setDialogOpen(true);
+		setDialogOpen(true);
 
+		const update = () => {
 			if (pet.energyLevel < MaxLevel) {
 				pet.energyLevel += 1;
 				setEnergy(pet.energyLevel);
 				usePetImage(pet, species, setImageURL, setPetDeath);
 
-				if (pet.energyLevel >= MaxLevel || !isDialogOpen) {
+				if (pet.energyLevel >= MaxLevel) {
 					setDialogOpen(false);
 					return;
 				}
@@ -96,6 +96,11 @@ const Game: React.FC<GameProps> = ({ pet, species }) => {
 	const startOver = (pet: Pet) => {
 		deleteDoc(petDocument(pet.id));
 		setPetDeath(false);
+		window.location.reload();
+	};
+
+	const wakeUp = () => {
+		setDialogOpen(false);
 		window.location.reload();
 	};
 
@@ -201,7 +206,7 @@ const Game: React.FC<GameProps> = ({ pet, species }) => {
 					</Typography>
 				</DialogContent>
 				<DialogActions>
-					<Button onClick={() => setDialogOpen(false)}>Wake up</Button>
+					<Button onClick={() => wakeUp()}>Wake up</Button>
 				</DialogActions>
 			</Dialog>
 
