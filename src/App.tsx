@@ -17,6 +17,7 @@ import { ToastContainer } from 'react-toastify';
 import CreatePet from './pages/CreatePet';
 import ManageSpecies from './pages/ManageSpecies';
 import { isAdmin } from './accessControl';
+import About from './pages/About';
 
 const rootRoute = new RootRoute({
 	component: () => {
@@ -85,11 +86,7 @@ const playRoute = new Route({
 const aboutRoute = new Route({
 	getParentRoute: () => rootRoute,
 	path: '/about',
-	component: () => (
-    <div>
-      <h1>About</h1>
-    </div>
-  )
+	component: About
 });
 
 const notFoundRoute = new Route({
