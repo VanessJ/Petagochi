@@ -14,10 +14,10 @@ const MaxLevel = 100;
 const Game: React.FC<GameProps> = ({ pet, species }) => {
 	const [imageURL, setImageURL] = useState('');
 
-	useEffect(() => usePetImage(pet, species, setImageURL), []);
+	useEffect(() => usePetImage(pet, species, setImageURL, setPetDeath), []);
 	
 	const [isDialogOpen, setDialogOpen] = useState(false);
-	const [isPetDead] = useState(false);
+	const [isPetDead, setPetDeath] = useState(false);
 
 	const [Hunger, setHunger] = useState(pet.hungerLevel);
 	const [Happines, setHappines] = useState(pet.happinessLevel);
@@ -36,7 +36,7 @@ const Game: React.FC<GameProps> = ({ pet, species }) => {
 			pet.hungerLevel = MaxLevel;
 		}
 		setHunger(pet.hungerLevel);
-		usePetImage(pet, species, setImageURL);
+		usePetImage(pet, species, setImageURL,setPetDeath);
 	};
 
 	const updateHappines = (pet: Pet) => {
@@ -44,7 +44,7 @@ const Game: React.FC<GameProps> = ({ pet, species }) => {
 		llamaSound.play();
 		setHappines(pet.happinessLevel);
 		setDoc(petDocument(pet.id), pet);
-		usePetImage(pet, species, setImageURL);
+		usePetImage(pet, species, setImageURL,setPetDeath);
 	};
 
 	const updateEnergy = (pet: Pet) => {
@@ -56,7 +56,7 @@ const Game: React.FC<GameProps> = ({ pet, species }) => {
 			if (pet.energyLevel < MaxLevel) {
 				pet.energyLevel += 1;
 				setEnergy(pet.energyLevel);
-				usePetImage(pet, species, setImageURL);
+				usePetImage(pet, species, setImageURL,setPetDeath);
 				
 				if (pet.energyLevel >= MaxLevel) {
 					setDialogOpen(false);
@@ -121,6 +121,7 @@ const Game: React.FC<GameProps> = ({ pet, species }) => {
 								variant="contained"
 								size="small"
 								onClick={() => updateHunger(pet)}
+								disabled={isPetDead}
 							>
 								Feed
 							</Button>
@@ -139,6 +140,7 @@ const Game: React.FC<GameProps> = ({ pet, species }) => {
 								variant="contained"
 								size="small"
 								onClick={() => updateHappines(pet)}
+								disabled={isPetDead}
 							>
 								Play
 							</Button>
@@ -157,6 +159,7 @@ const Game: React.FC<GameProps> = ({ pet, species }) => {
 								variant="contained"
 								size="small"
 								onClick={() => updateEnergy(pet)}
+								disabled={isPetDead}
 							>
 								Sleep
 							</Button>
