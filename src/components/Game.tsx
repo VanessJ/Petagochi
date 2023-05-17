@@ -21,7 +21,12 @@ const Game: React.FC<GameProps> = ({ pet, species }) => {
 	const [Happines, setHappines] = useState(pet.happinessLevel);
 	const [Energy, setEnergy] = useState(pet.energyLevel);
 
+  let nomNom = new Audio("/src/sounds/nomnom.mp3");
+  let llamaSound = new Audio("/src/sounds/llamaSound.wav");
+  let sleeping = new Audio("/src/sounds/snoring.mp3");
+
 	const updateHunger = (pet: Pet) => {
+    nomNom.play();
 		const rndNum = Math.floor(Math.random() * 40);
 		if (pet.hungerLevel + rndNum <= MaxLevel) {
 			pet.hungerLevel += rndNum;
@@ -33,6 +38,7 @@ const Game: React.FC<GameProps> = ({ pet, species }) => {
 
   const updateHappines = (pet: Pet) => {
     pet.happinessLevel = MaxLevel;
+    llamaSound.play();
     setHappines(pet.happinessLevel);
   };
 
@@ -50,6 +56,7 @@ const Game: React.FC<GameProps> = ({ pet, species }) => {
 					return;
 				}
 			}
+      sleeping.play();
 			// Schedule the next update after the specified interval
 			setTimeout(update, updateInterval);
 		};
@@ -126,6 +133,7 @@ const Game: React.FC<GameProps> = ({ pet, species }) => {
 					</Typography>
 				</DialogContent>
 			</Dialog>
+      <audio id="NomNom" src="https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3"></audio>
 		</>
 	);
 };
