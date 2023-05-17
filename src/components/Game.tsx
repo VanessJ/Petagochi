@@ -126,7 +126,7 @@ const Game: React.FC<GameProps> = ({ pet, species }) => {
 			</Typography>
 			<Box
 				sx={{
-					border: '2px solid green',
+					border: '2px solid #fc03db',
 					padding: '10px',
 					display: 'flex',
 					flexDirection: 'column',
