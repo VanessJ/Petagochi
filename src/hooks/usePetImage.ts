@@ -1,3 +1,4 @@
+import { UPDATE } from '../components/Game';
 import { Pet, Species, petDocument } from '../firebase';
 import { setDoc } from 'firebase/firestore';
 
@@ -22,14 +23,14 @@ const usePetImage = (pet: Pet, species: Species, setImageURL: React.Dispatch<Rea
 		const timeLastVisit = new Date(pet.lastVisit);
 		const lastVisitInMiliseconds =
 			currentDate.getTime() - timeLastVisit.getTime();
-		const lastVisitInHours = Math.floor(
-			lastVisitInMiliseconds / (1000 * 60 * 60)
+		const lastVisitInMinutes = Math.floor(
+			lastVisitInMiliseconds / (UPDATE)
 		);
 
-		if (lastVisitInHours > 0) {
-			pet.energyLevel = Math.max(pet.energyLevel - lastVisitInHours, 0);
-			pet.hungerLevel =  Math.max(pet.hungerLevel - lastVisitInHours, 0);
-			pet.happinessLevel =  Math.max(pet.happinessLevel - lastVisitInHours, 0);
+		if (lastVisitInMinutes > 0) {
+			pet.energyLevel = Math.max(pet.energyLevel - lastVisitInMinutes, 0);
+			pet.hungerLevel =  Math.max(pet.hungerLevel - lastVisitInMinutes, 0);
+			pet.happinessLevel =  Math.max(pet.happinessLevel - lastVisitInMinutes, 0);
 
 			pet.lastVisit = currentDate;
 		}
