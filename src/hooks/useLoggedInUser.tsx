@@ -26,6 +26,8 @@ export const UserProvider: FC<PropsWithChildren> = ({ children }) => {
 						setUser(user);
 					}
 				});
+			} else {
+				setUser(undefined);
 			}
 		});
 	}, []);
